@@ -44,7 +44,6 @@ void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void GraphicScene::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
-
     QList<GraphicBall *> balls;
     foreach (auto item, items())
     {

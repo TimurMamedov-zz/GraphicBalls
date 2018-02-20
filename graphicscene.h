@@ -5,6 +5,7 @@
 
 class GraphicScene : public QGraphicsScene
 {
+    Q_OBJECT
 public:
     GraphicScene(QObject *parent = Q_NULLPTR);
 
@@ -15,7 +16,7 @@ protected:
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    int timerId;
+    int timerId = 0;
 };
 
 #endif // GRAPHICSCENE_H

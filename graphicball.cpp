@@ -24,33 +24,41 @@ void GraphicBall::calculateForces()
         return;
     }
 
-    // Sum up all forces pushing this item away
+    // Sum up all forces pulling items together
     qreal xvel = 0;
     qreal yvel = 0;
     foreach (auto item, scene()->items())
     {
         auto ball = qgraphicsitem_cast<GraphicBall *>(item);
-        if (!ball)
+        if (!ball || (ball == this))
             continue;
 
         auto vec = mapToItem(ball, 0, 0);
         auto dx = vec.x();
         auto dy = vec.y();
-        auto l = 2.0 * (dx * dx + dy * dy);
-        if (l > 0)
+        if ( qAbs(x()) - qAbs(ball->x()) < 20 )
+            xvel = 0;
+        else if(dx)
         {
-            xvel += (dx * 150.0) / l;
-            yvel += (dy * 150.0) / l;
+            xvel -= ( (1/dx) - (1/(dx*dx)) );
         }
+
+        if ( qAbs(y()) - qAbs(ball->y()) < 20 )
+            yvel = 0;
+        else if(dy)
+        {
+            yvel -= (1/dy - 1/(dy*dy));
+        }
+        if ( qAbs(x()) - qAbs(ball->x()) < 20 )
+            xvel = 0;
     }
 
-    // Now subtract all forces pulling items together
-//! [5]
-    if (qAbs(xvel) < 0.1 && qAbs(yvel) < 0.1)
+    if ((qAbs(xvel) < 0.01 && qAbs(yvel) < 0.01))
         xvel = yvel = 0;
+
+
 //! [5]
 
-//! [6]
     newPos = pos() + QPointF(xvel, yvel);
     newPos.setX(newPos.x());
     newPos.setY(newPos.y());
@@ -105,7 +113,8 @@ void GraphicBall::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 QVariant GraphicBall::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    switch (change) {
+    switch (change)
+    {
     case ItemPositionHasChanged:
         scene_->itemMoved();
         break;
