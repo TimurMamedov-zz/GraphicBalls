@@ -13,6 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    graphicball.cpp \
+    graphicscene.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    graphicball.h \
+    graphicscene.h
