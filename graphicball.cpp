@@ -17,62 +17,6 @@ GraphicBall::GraphicBall(GraphicScene *graphScene)
     setZValue(-1);
 }
 
-void GraphicBall::calculateForces()
-{
-    if (!scene() || scene()->mouseGrabberItem() == this) {
-        newPos = pos();
-        return;
-    }
-
-    // Sum up all forces pulling items together
-    qreal xvel = 0;
-    qreal yvel = 0;
-    foreach (auto item, scene()->items())
-    {
-        auto ball = qgraphicsitem_cast<GraphicBall *>(item);
-        if (!ball || (ball == this))
-            continue;
-
-        auto vec = mapToItem(ball, 0, 0);
-        auto dx = vec.x();
-        auto dy = vec.y();
-        if ( qAbs(x()) - qAbs(ball->x()) < 20 )
-            xvel = 0;
-        else if(dx)
-        {
-            xvel -= ( (1/dx) - (1/(dx*dx)) );
-        }
-
-        if ( qAbs(y()) - qAbs(ball->y()) < 20 )
-            yvel = 0;
-        else if(dy)
-        {
-            yvel -= (1/dy - 1/(dy*dy));
-        }
-        if ( qAbs(x()) - qAbs(ball->x()) < 20 )
-            xvel = 0;
-    }
-
-    if ((qAbs(xvel) < 0.01 && qAbs(yvel) < 0.01))
-        xvel = yvel = 0;
-
-
-//! [5]
-
-    newPos = pos() + QPointF(xvel, yvel);
-    newPos.setX(newPos.x());
-    newPos.setY(newPos.y());
-}
-
-bool GraphicBall::advance()
-{
-    if (newPos == pos())
-        return false;
-
-    setPos(newPos);
-    return true;
-}
-
 QRectF GraphicBall::boundingRect() const
 {
     qreal adjust = 2;
@@ -116,7 +60,7 @@ QVariant GraphicBall::itemChange(QGraphicsItem::GraphicsItemChange change, const
     switch (change)
     {
     case ItemPositionHasChanged:
-        scene_->itemMoved();
+        scene_->itemMoved(this);
         break;
     default:
         break;

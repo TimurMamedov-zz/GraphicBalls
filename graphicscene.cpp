@@ -3,25 +3,31 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QTime>
+#include <thread>
+#include <functional>
 
 GraphicScene::GraphicScene(QObject *parent)
-    :QGraphicsScene(parent)
+    :QGraphicsScene(parent), forces(*this)
 {
+    setSceneRect(0, 0, 1000, 800);
     qsrand(QTime::currentTime().msec());
     auto N = qrand() % 20;
     for(int i = 0, j = N; i < N; i++, j--)
     {
         auto ball = new GraphicBall(this);
-        ball->setX(qrand() % 200);
-        ball->setY(qrand() % 200);
+        ball->setX(qrand() % 500);
+        ball->setY(qrand() % 300);
         addItem(ball);
     }
+    std::thread secondThread(std::ref(GraphicScene::forces));
+    secondThread.detach();
 }
 
-void GraphicScene::itemMoved()
+void GraphicScene::itemMoved(GraphicBall *ball)
 {
-    if (!timerId)
-        timerId = startTimer(1000 / 25);
+//    std::lock_guard<std::mutex> lk(mut);
+//    if(points.find(ball) != points.end())
+//        ball->setPos(points[ball]);
 }
 
 void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -39,31 +45,4 @@ void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
          }
      }
      QGraphicsScene::mousePressEvent(mouseEvent);
-}
-
-void GraphicScene::timerEvent(QTimerEvent *event)
-{
-    Q_UNUSED(event);
-    QList<GraphicBall *> balls;
-    foreach (auto item, items())
-    {
-        if (auto ball = qgraphicsitem_cast<GraphicBall *>(item))
-            balls << ball;
-    }
-
-    foreach (auto ball, balls)
-        ball->calculateForces();
-
-    bool itemsMoved = false;
-    foreach (auto ball, balls)
-    {
-        if (ball->advance())
-            itemsMoved = true;
-    }
-
-    if (!itemsMoved)
-    {
-        killTimer(timerId);
-        timerId = 0;
-    }
 }

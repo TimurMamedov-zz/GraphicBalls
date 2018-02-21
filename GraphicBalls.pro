@@ -9,8 +9,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     graphicball.cpp \
-    graphicscene.cpp
+    graphicscene.cpp \
+    calculateforces.cpp
 
 HEADERS  += mainwindow.h \
     graphicball.h \
-    graphicscene.h
+    graphicscene.h \
+    calculateforces.h
