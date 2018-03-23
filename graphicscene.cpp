@@ -27,7 +27,7 @@ GraphicScene::GraphicScene(QObject *parent)
 void GraphicScene::itemMoved(GraphicBall *ball)
 {
     if (!timerId)
-        timerId = startTimer(1000/25);
+        timerId = startTimer(1000/100);
 }
 
 void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -38,8 +38,8 @@ void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         auto item = itemAt(mouseEvent->scenePos(), QTransform());
         if(item)
         {
-            removeItem(item);
             balls.erase(item);
+            removeItem(item);
         }
         else
         {
@@ -52,12 +52,20 @@ void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     QGraphicsScene::mousePressEvent(mouseEvent);
 }
 
+void GraphicScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    std::lock_guard<std::mutex> lk(mut);
+    movingItem = Q_NULLPTR;
+    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+}
+
 void GraphicScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     std::lock_guard<std::mutex> lk(mut);
     auto ball = itemAt(mouseEvent->scenePos(), QTransform());
     if(ball)
     {
+        movingItem = ball;
         auto ballPair = balls.find(ball);
         if(ballPair != balls.end())
         {
@@ -84,6 +92,8 @@ bool GraphicScene::isMovingItems()
     std::lock_guard<std::mutex> lk(mut);
     for(auto ball : balls)
     {
+        if(movingItem == ball.first)
+            continue;
         ball.first->setPos(ball.second);
     }
     cond_var.notify_one();;

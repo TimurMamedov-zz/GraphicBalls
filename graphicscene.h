@@ -18,6 +18,7 @@ public:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 
@@ -25,6 +26,7 @@ private:
     int timerId = 0;
     CalculateForces forces;
     bool isMovingItems();
+    QGraphicsItem *movingItem = Q_NULLPTR;
 
     std::unordered_map<QGraphicsItem*, QPointF> balls;
     std::mutex mut;
