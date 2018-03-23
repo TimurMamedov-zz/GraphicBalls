@@ -1,10 +1,12 @@
 #include "calculateforces.h"
 #include "graphicscene.h"
-#include "graphicball.h"
 #include <QDebug>
+#include <QGraphicsItem>
 
-CalculateForces::CalculateForces(GraphicScene &graphicScene)
-    :scene(graphicScene)
+CalculateForces::CalculateForces(std::unordered_map<QGraphicsItem*, QPointF>& balls_,
+                                 std::mutex& mut_,
+                                 std::condition_variable& cond_var_)
+    :balls(balls_), mut(mut_), cond_var(cond_var_)
 {
 
 }
@@ -16,25 +18,20 @@ void CalculateForces::operator()()
         // Sum up all forces pulling items together
         qreal xvel = 0;
         qreal yvel = 0;
-        scene.mut.lock();
-        auto balls = scene.items();
-        foreach (auto item, balls)
-        {
-            auto ball = qgraphicsitem_cast<GraphicBall *>(item);
-            if (!ball)
-                continue;
+        std::unique_lock<std::mutex> lk(mut);
 
-            foreach (auto item, scene.items())
+        for(auto ball: balls)
+        {
+            for(auto anotherBall : balls)
             {
-                auto anotherBall = qgraphicsitem_cast<GraphicBall *>(item);
-                if (!ball || ball == anotherBall)
+                if (ball.first == anotherBall.first)
                     continue;
 
-                auto vec = ball->mapToItem(anotherBall, 0, 0);
+                auto vec = ball.first->mapToItem(anotherBall.first, 0, 0);
                 auto dx = vec.x();
                 auto dy = vec.y();
 
-                if ( qAbs(ball->x()) - qAbs(anotherBall->x()) < 0.5 )
+                if ( qAbs(ball.first->x()) - qAbs(anotherBall.first->x()) < 0.5 )
                     xvel = 0.0001;
                 else if(dx)
                 {
@@ -44,7 +41,7 @@ void CalculateForces::operator()()
                         xvel -= ( (1/dx) - (1/(dx*dx)) );
                 }
 
-                if ( qAbs(ball->y()) - qAbs(anotherBall->y()) < 0.5 )
+                if ( qAbs(ball.first->y()) - qAbs(anotherBall.first->y()) < 0.5 )
                     yvel = 0.0001;
                 else if(dy)
                 {
@@ -54,8 +51,8 @@ void CalculateForces::operator()()
                         yvel -= ( (1/dy) - (1/(dy*dy)) );
                 }
             }
-            scene.points[ball] = ball->pos() + QPointF(xvel, yvel);
-            scene.mut.unlock();
+            balls[ball.first] = ball.first->pos() + QPointF(xvel, yvel);
         }
+        cond_var.wait(lk);
     }
 }
