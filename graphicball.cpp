@@ -32,6 +32,7 @@ QPainterPath GraphicBall::shape() const
 
 void GraphicBall::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(widget)
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::darkGray);
     painter->drawEllipse(-7, -7, 20, 20);
@@ -60,7 +61,7 @@ QVariant GraphicBall::itemChange(QGraphicsItem::GraphicsItemChange change, const
     switch (change)
     {
     case ItemPositionHasChanged:
-        scene_->itemMoved(this);
+        scene_->itemMoved();
         break;
     default:
         break;

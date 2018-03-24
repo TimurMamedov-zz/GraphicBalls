@@ -7,11 +7,13 @@
 #include <functional>
 
 GraphicScene::GraphicScene(QObject *parent)
-    :QGraphicsScene(parent), forces(balls, mut, cond_var)
+    :QGraphicsScene(parent),
+      forces(balls, mut, cond_var, finish),
+      calculateForcesThread(std::ref(GraphicScene::forces))
 {
     setSceneRect(0, 0, 1000, 800);
     qsrand(QTime::currentTime().msec());
-    auto N = qrand() % 20;
+    auto N = qrand() % 10;
     for(int i = 0, j = N; i < N; i++, j--)
     {
         auto ball = new GraphicBall(this);
@@ -20,14 +22,21 @@ GraphicScene::GraphicScene(QObject *parent)
         addItem(ball);
         balls[ball] = ball->pos();
     }
-    std::thread secondThread(std::ref(GraphicScene::forces));
-    secondThread.detach();
+
+    calculateForcesThread.detach();
 }
 
-void GraphicScene::itemMoved(GraphicBall *ball)
+GraphicScene::~GraphicScene()
+{
+    finish = true;
+    cond_var.notify_one();
+    calculateForcesThread.join();
+}
+
+void GraphicScene::itemMoved()
 {
     if (!timerId)
-        timerId = startTimer(1000/100);
+        timerId = startTimer(1000/50);
 }
 
 void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -47,8 +56,10 @@ void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             ball->setPos(mouseEvent->scenePos());
             addItem(ball);
             balls.emplace(ball, ball->pos());
+
+            startTimer(1000/50);
         }
-    }
+    }  
     QGraphicsScene::mousePressEvent(mouseEvent);
 }
 
@@ -81,7 +92,8 @@ void GraphicScene::timerEvent(QTimerEvent *event)
 
     auto itemsMoved = isMovingItems();
 
-    if (!itemsMoved) {
+    if (!itemsMoved)
+    {
         killTimer(timerId);
         timerId = 0;
     }
@@ -90,12 +102,19 @@ void GraphicScene::timerEvent(QTimerEvent *event)
 bool GraphicScene::isMovingItems()
 {
     std::lock_guard<std::mutex> lk(mut);
+    bool isMovingFlag = true;
     for(auto ball : balls)
     {
         if(movingItem == ball.first)
             continue;
-        ball.first->setPos(ball.second);
+        if(ball.first->pos() == ball.second)
+            isMovingFlag = false;
+        else
+        {
+            ball.first->setPos(ball.second);
+            isMovingFlag = true;
+        }
     }
     cond_var.notify_one();;
-    return true;
+    return isMovingFlag;
 }

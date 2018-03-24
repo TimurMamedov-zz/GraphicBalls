@@ -12,14 +12,16 @@ class CalculateForces
 public:
     CalculateForces(std::unordered_map<QGraphicsItem *, QPointF> &balls_,
                     std::mutex& mut_,
-                    std::condition_variable& cond_var_);
+                    std::condition_variable& cond_var_,
+                    bool& finish_);
 
     void operator()();
 
 private:
+    std::unordered_map<QGraphicsItem*, QPointF>& balls;
     std::mutex& mut;
     std::condition_variable& cond_var;
-    std::unordered_map<QGraphicsItem*, QPointF>& balls;
+    const bool& finish;
 };
 
 #endif // CALCULATEFORCES_H

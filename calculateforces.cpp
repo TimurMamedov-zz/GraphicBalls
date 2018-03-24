@@ -2,11 +2,12 @@
 #include "graphicscene.h"
 #include <QDebug>
 #include <QGraphicsItem>
+#include <QtCore/qmath.h>
 
 CalculateForces::CalculateForces(std::unordered_map<QGraphicsItem*, QPointF>& balls_,
                                  std::mutex& mut_,
-                                 std::condition_variable& cond_var_)
-    :balls(balls_), mut(mut_), cond_var(cond_var_)
+                                 std::condition_variable& cond_var_, bool &finish_)
+    :balls(balls_), mut(mut_), cond_var(cond_var_), finish(finish_)
 {
 
 }
@@ -16,43 +17,35 @@ void CalculateForces::operator()()
     while (true)
     {
         // Sum up all forces pulling items together
-        qreal xvel = 0;
-        qreal yvel = 0;
         std::unique_lock<std::mutex> lk(mut);
 
-        for(auto ball: balls)
+        for(const auto& ballPair: balls)
         {
-            for(auto anotherBall : balls)
+            qreal vel = 0;
+            qreal xvel = 0;
+            qreal yvel = 0;
+
+            for(const auto& anotherBallPair: balls)
             {
-                if (ball.first == anotherBall.first)
+                if (ballPair.first == anotherBallPair.first)
                     continue;
+                auto vec = anotherBallPair.first->pos();
+                auto dx = vec.x() - ballPair.first->x();
+                auto dy = vec.y() - ballPair.first->y();
 
-                auto vec = ball.first->mapToItem(anotherBall.first, 0, 0);
-                auto dx = vec.x();
-                auto dy = vec.y();
+                auto R = qSqrt(dx*dx + dy*dy);
 
-                if ( qAbs(ball.first->x()) - qAbs(anotherBall.first->x()) < 0.5 )
-                    xvel = 0.0001;
-                else if(dx)
+                if(R > ballPair.first->boundingRect().width()/10)
                 {
-                    if(dx < 0)
-                        xvel += ( (1/dx) - (1/(dx*dx)) );
-                    else
-                        xvel -= ( (1/dx) - (1/(dx*dx)) );
-                }
-
-                if ( qAbs(ball.first->y()) - qAbs(anotherBall.first->y()) < 0.5 )
-                    yvel = 0.0001;
-                else if(dy)
-                {
-                    if(dy < 0)
-                        yvel += ( (1/dy) - (1/(dy*dy)) );
-                    else
-                        yvel -= ( (1/dy) - (1/(dy*dy)) );
+                    vel = (1/R) - (1/(R*R));
+                    xvel += vel * dx/R;
+                    yvel += vel * dy/R;
                 }
             }
-            balls[ball.first] = ball.first->pos() + QPointF(xvel, yvel);
+            balls[ballPair.first] = ballPair.first->pos() + QPointF(xvel, yvel);
         }
         cond_var.wait(lk);
+        if(finish)
+            break;
     }
 }
