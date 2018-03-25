@@ -61,7 +61,8 @@ QVariant GraphicBall::itemChange(QGraphicsItem::GraphicsItemChange change, const
     switch (change)
     {
     case ItemPositionHasChanged:
-        scene_->itemMoved();
+        if(scene_)
+            scene_->itemMoved();
         break;
     default:
         break;

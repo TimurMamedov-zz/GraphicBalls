@@ -8,6 +8,7 @@ class GraphicScene;
 class GraphicBall : public QGraphicsItem
 {
 public:
+    GraphicBall() = default;
     GraphicBall(GraphicScene *graphScene);
     enum { Type = UserType + 1 };
     int type() const Q_DECL_OVERRIDE { return Type; }
@@ -23,7 +24,7 @@ protected:
 
 private:
     QPointF newPos;
-    GraphicScene *scene_;
+    GraphicScene *scene_ = Q_NULLPTR;
 };
 
 #endif // GRAPHICBALL_H

@@ -24,6 +24,7 @@ GraphicScene::GraphicScene(QObject *parent)
     }
 
     calculateForcesThread.detach();
+    startTimer(1000/50);
 }
 
 GraphicScene::~GraphicScene()
@@ -103,7 +104,7 @@ bool GraphicScene::isMovingItems()
 {
     std::lock_guard<std::mutex> lk(mut);
     bool isMovingFlag = true;
-    for(auto ball : balls)
+    for(auto& ball : balls)
     {
         if(movingItem == ball.first)
             continue;

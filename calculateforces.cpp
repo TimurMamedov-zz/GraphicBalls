@@ -44,8 +44,8 @@ void CalculateForces::operator()()
             }
             balls[ballPair.first] = ballPair.first->pos() + QPointF(xvel, yvel);
         }
-        cond_var.wait(lk);
         if(finish)
             break;
+        cond_var.wait(lk);
     }
 }
