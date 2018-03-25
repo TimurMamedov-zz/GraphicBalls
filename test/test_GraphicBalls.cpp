@@ -1,12 +1,13 @@
 #include <gtest/gtest.h>
 #include "calculateforces.h"
 #include "graphicball.h"
-
+#include <QDebug>
 #include <unordered_map>
 #include <QGraphicsItem>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
+#include <chrono>
 #include <gtest/gtest.h>
 
 class CalculateForcesTest : public ::testing::Test
@@ -50,14 +51,14 @@ TEST_F(CalculateForcesTest, operator_brackets)
     ball2->setPos(point2);
     balls[ball2] = ball2->pos();
     lk.unlock();
-    for(auto i = std::size_t{0}; i < 5; i++)
+    for(auto i = std::size_t{0}; i < 1; i++)
     {
         std::unique_lock<std::mutex> lk(mut);
         ball1->setPos(balls[ball1]);
         ball2->setPos(balls[ball2]);
         cond_var.notify_one();
     }
-
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     EXPECT_NE(point1, balls[ball1]);
     EXPECT_NE(point2, balls[ball2]);
 
