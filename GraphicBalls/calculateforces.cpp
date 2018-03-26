@@ -2,7 +2,7 @@
 #include "graphicscene.h"
 #include <QDebug>
 #include <QGraphicsItem>
-#include <QtCore/qmath.h>
+#include <cmath>
 
 CalculateForces::CalculateForces(std::unordered_map<QGraphicsItem*, QPointF>& balls_,
                                  std::mutex& mut_,
@@ -33,7 +33,7 @@ void CalculateForces::operator()()
                 auto dx = vec.x() - ballPair.first->x();
                 auto dy = vec.y() - ballPair.first->y();
 
-                auto R = qSqrt(dx*dx + dy*dy);
+                auto R = std::sqrt(dx*dx + dy*dy);
 
                 if(R > ballPair.first->boundingRect().width()/10)
                 {

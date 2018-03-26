@@ -23,7 +23,6 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    QPointF newPos;
     GraphicScene *scene_ = Q_NULLPTR;
 };
 
