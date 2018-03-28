@@ -20,7 +20,7 @@ install:
   - cmake --build .
   - sudo make install
   - cd ..
-  - rm -r googletest
+  - rm -rf googletest
 
 before_script:
   - sudo apt-get install doxygen -y
