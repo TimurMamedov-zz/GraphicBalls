@@ -85,30 +85,30 @@
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keyword">auto</span> dx = vec.x() - ballPair.first-&gt;x();</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keyword">auto</span> dy = vec.y() - ballPair.first-&gt;y();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="keyword">auto</span> R = std::sqrt(dx*dx + dy*dy);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="keyword">auto</span> R = std::sqrt(dx*dx + dy*dy); </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keywordflow">if</span>(R &gt; ballPair.first-&gt;boundingRect().width()/10)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keywordflow">if</span>(R &gt; ballPair.first-&gt;boundingRect().width()/10) </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    vel = (1/R) - (1/(R*R));</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    xvel += vel * dx/R;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    yvel += vel * dy/R;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    xvel += vel * dx/R; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    yvel += vel * dy/R; </div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                }</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            balls[ballPair.first] = ballPair.first-&gt;pos() + QPointF(xvel, yvel);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            balls[ballPair.first] = ballPair.first-&gt;pos() + QPointF(xvel, yvel); </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">if</span>(finish)</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        cond_var.wait(lk);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        cond_var.wait(lk); </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="ttc" id="calculateforces_8h_html"><div class="ttname"><a href="calculateforces_8h.html">calculateforces.h</a></div></div>
+<div class="ttc" id="calculateforces_8h_html"><div class="ttname"><a href="calculateforces_8h.html">calculateforces.h</a></div><div class="ttdoc">Header file with a description of the class-functor, where the balls coordinates are calculated...</div></div>
 <div class="ttc" id="classCalculateForces_html_a5f8f1fd7c2af3605dc8adba656c3e03b"><div class="ttname"><a href="classCalculateForces.html#a5f8f1fd7c2af3605dc8adba656c3e03b">CalculateForces::CalculateForces</a></div><div class="ttdeci">CalculateForces(std::unordered_map&lt; QGraphicsItem *, QPointF &gt; &amp;balls_, std::mutex &amp;mut_, std::condition_variable &amp;cond_var_, bool &amp;finish_)</div><div class="ttdef"><b>Definition:</b> <a href="calculateforces_8cpp_source.html#l00007">calculateforces.cpp:7</a></div></div>
-<div class="ttc" id="graphicscene_8h_html"><div class="ttname"><a href="graphicscene_8h.html">graphicscene.h</a></div></div>
+<div class="ttc" id="graphicscene_8h_html"><div class="ttname"><a href="graphicscene_8h.html">graphicscene.h</a></div><div class="ttdoc">Header file with a description of the Scene class, where the balls are controlled, the coordinates for which are calculated in a separate thread. </div></div>
 <div class="ttc" id="classCalculateForces_html_a14c0a636c4e556f2c7246a9e531b39ec"><div class="ttname"><a href="classCalculateForces.html#a14c0a636c4e556f2c7246a9e531b39ec">CalculateForces::operator()</a></div><div class="ttdeci">void operator()()</div><div class="ttdef"><b>Definition:</b> <a href="calculateforces_8cpp_source.html#l00015">calculateforces.cpp:15</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 19:49:10. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 20:16:45. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
