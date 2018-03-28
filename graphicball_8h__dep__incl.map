@@ -1,6 +1,6 @@
 <map id="GraphicBalls/graphicball.h" name="GraphicBalls/graphicball.h">
 <area shape="rect" id="node2" href="$graphicball_8cpp.html" title="GraphicBalls/graphicball.cpp" alt="" coords="5,80,192,107"/>
-<area shape="rect" id="node3" href="$graphicscene_8cpp.html" title="Header file with a description of the Scene class, where the balls are controlled, the coordinates for which are calculated in a separate thread. " alt="" coords="216,80,419,107"/>
+<area shape="rect" id="node3" href="$graphicscene_8cpp.html" title="GraphicBalls/graphicscene.cpp" alt="" coords="216,80,419,107"/>
 <area shape="rect" id="node4" href="$calculateforcestest_8h.html" title="GraphicBalls_test/calculateforcestest.h" alt="" coords="443,80,693,107"/>
 <area shape="rect" id="node5" href="$calculateforcestest_8cpp.html" title="GraphicBalls_test/calculateforcestest.cpp" alt="" coords="320,163,584,189"/>
 <area shape="rect" id="node6" href="$test__GraphicBalls_8cpp.html" title="GraphicBalls_test/test\l_GraphicBalls.cpp" alt="" coords="609,155,759,197"/>

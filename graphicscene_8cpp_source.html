@@ -50,142 +50,141 @@
 <div class="title">graphicscene.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="graphicscene_8cpp.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="graphicscene_8h.html">graphicscene.h</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="graphicball_8h.html">graphicball.h</a>&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QDebug&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;QGraphicsSceneMouseEvent&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;QTime&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">   15</a></span>&#160;<a class="code" href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">GraphicScene::GraphicScene</a>(QObject *parent)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    :QGraphicsScene(parent),</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      forces(balls, mut, cond_var, finish),</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      calculateForcesThread(std::ref(<a class="code" href="classGraphicScene.html">GraphicScene</a>::forces))</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    setSceneRect(0, 0, 1000, 800);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    qsrand(QTime::currentTime().msec());</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">auto</span> N = qrand() % 10;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0, j = N; i &lt; N; i++, j--)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">auto</span> ball = <span class="keyword">new</span> <a class="code" href="classGraphicBall.html">GraphicBall</a>(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        ball-&gt;setX(qrand() % 500);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        ball-&gt;setY(qrand() % 300);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        addItem(ball);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        balls[ball] = ball-&gt;pos();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    calculateForcesThread.detach();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    startTimer(1000/50);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">   36</a></span>&#160;<a class="code" href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">GraphicScene::~GraphicScene</a>()</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    finish = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    cond_var.notify_one();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    calculateForcesThread.join();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">   45</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">GraphicScene::itemMoved</a>()</div>
+<a href="graphicscene_8cpp.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="graphicscene_8h.html">graphicscene.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="graphicball_8h.html">graphicball.h</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QGraphicsSceneMouseEvent&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QTime&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">    9</a></span>&#160;<a class="code" href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">GraphicScene::GraphicScene</a>(QObject *parent)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    :QGraphicsScene(parent),</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;      forces(balls, mut, cond_var, finish),</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;      calculateForcesThread(std::ref(<a class="code" href="classGraphicScene.html">GraphicScene</a>::forces))</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    setSceneRect(0, 0, 1000, 800);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    qsrand(QTime::currentTime().msec());</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">auto</span> N = qrand() % 10;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0, j = N; i &lt; N; i++, j--)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">auto</span> ball = <span class="keyword">new</span> <a class="code" href="classGraphicBall.html">GraphicBall</a>(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        ball-&gt;setX(qrand() % 500);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        ball-&gt;setY(qrand() % 300);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        addItem(ball);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        balls[ball] = ball-&gt;pos();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    calculateForcesThread.detach();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    startTimer(1000/50);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">   30</a></span>&#160;<a class="code" href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">GraphicScene::~GraphicScene</a>()</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    finish = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    cond_var.notify_one();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    calculateForcesThread.join();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">   39</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">GraphicScene::itemMoved</a>()</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (!timerId)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        timerId = startTimer(1000/200);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">   45</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">GraphicScene::mousePressEvent</a>(QGraphicsSceneMouseEvent *mouseEvent)</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (!timerId)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        timerId = startTimer(1000/200);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">   51</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">GraphicScene::mousePressEvent</a>(QGraphicsSceneMouseEvent *mouseEvent)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span>(mouseEvent-&gt;buttons() &amp; Qt::RightButton)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">auto</span> item = itemAt(mouseEvent-&gt;scenePos(), QTransform());</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">if</span>(item)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            balls.erase(item);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            removeItem(item);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keyword">auto</span> ball = <span class="keyword">new</span> <a class="code" href="classGraphicBall.html">GraphicBall</a>(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            ball-&gt;setPos(mouseEvent-&gt;scenePos());</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            addItem(ball);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            balls.emplace(ball, ball-&gt;pos());</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">if</span>(mouseEvent-&gt;buttons() &amp; Qt::RightButton)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">auto</span> item = itemAt(mouseEvent-&gt;scenePos(), QTransform());</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">if</span>(item)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            balls.erase(item);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            removeItem(item);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keyword">auto</span> ball = <span class="keyword">new</span> <a class="code" href="classGraphicBall.html">GraphicBall</a>(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            ball-&gt;setPos(mouseEvent-&gt;scenePos());</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            addItem(ball);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            balls.emplace(ball, ball-&gt;pos());</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            startTimer(1000/50);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }  </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    QGraphicsScene::mousePressEvent(mouseEvent);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            startTimer(1000/50);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }  </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    QGraphicsScene::mousePressEvent(mouseEvent);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">   75</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">GraphicScene::mouseReleaseEvent</a>(QGraphicsSceneMouseEvent *mouseEvent)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    movingItem = Q_NULLPTR;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    QGraphicsScene::mouseReleaseEvent(mouseEvent);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">   82</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">GraphicScene::mouseMoveEvent</a>(QGraphicsSceneMouseEvent *mouseEvent)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">auto</span> ball = itemAt(mouseEvent-&gt;scenePos(), QTransform());</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span>(ball)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        movingItem = ball;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">auto</span> ballPair = balls.find(ball);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">if</span>(ballPair != balls.end())</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            ballPair-&gt;second = ballPair-&gt;first-&gt;pos();</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    QGraphicsScene::mouseMoveEvent(mouseEvent);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">  102</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">GraphicScene::timerEvent</a>(QTimerEvent *event)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;{</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    Q_UNUSED(event);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">auto</span> itemsMoved = isMovingItems();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">if</span> (!itemsMoved)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        killTimer(timerId);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        timerId = 0;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    }</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keywordtype">bool</span> GraphicScene::isMovingItems()</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">bool</span> isMovingFlag = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span>&amp; ball : balls)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">if</span>(movingItem == ball.first)</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">if</span>(ball.first-&gt;pos() == ball.second)</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            isMovingFlag = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            ball.first-&gt;setPos(ball.second);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            isMovingFlag = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    cond_var.notify_one();;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">return</span> isMovingFlag;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">   69</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">GraphicScene::mouseReleaseEvent</a>(QGraphicsSceneMouseEvent *mouseEvent)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    movingItem = Q_NULLPTR;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    QGraphicsScene::mouseReleaseEvent(mouseEvent);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">   76</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">GraphicScene::mouseMoveEvent</a>(QGraphicsSceneMouseEvent *mouseEvent)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">auto</span> ball = itemAt(mouseEvent-&gt;scenePos(), QTransform());</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span>(ball)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        movingItem = ball;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keyword">auto</span> ballPair = balls.find(ball);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">if</span>(ballPair != balls.end())</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            ballPair-&gt;second = ballPair-&gt;first-&gt;pos();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    QGraphicsScene::mouseMoveEvent(mouseEvent);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">   96</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">GraphicScene::timerEvent</a>(QTimerEvent *event)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;{</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    Q_UNUSED(event);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">auto</span> itemsMoved = isMovingItems();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (!itemsMoved)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        killTimer(timerId);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        timerId = 0;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keywordtype">bool</span> GraphicScene::isMovingItems()</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(mut);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">bool</span> isMovingFlag = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">auto</span>&amp; ball : balls)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordflow">if</span>(movingItem == ball.first)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">if</span>(ball.first-&gt;pos() == ball.second)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            isMovingFlag = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            ball.first-&gt;setPos(ball.second);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            isMovingFlag = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    cond_var.notify_one();;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">return</span> isMovingFlag;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
 <div class="ttc" id="classGraphicScene_html"><div class="ttname"><a href="classGraphicScene.html">GraphicScene</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8h_source.html#l00019">graphicscene.h:19</a></div></div>
 <div class="ttc" id="classGraphicBall_html"><div class="ttname"><a href="classGraphicBall.html">GraphicBall</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8h_source.html#l00008">graphicball.h:8</a></div></div>
-<div class="ttc" id="classGraphicScene_html_a2c877c11d986d238c079d8456ca94935"><div class="ttname"><a href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">GraphicScene::itemMoved</a></div><div class="ttdeci">void itemMoved()</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00045">graphicscene.cpp:45</a></div></div>
-<div class="ttc" id="classGraphicScene_html_acdbd50f40820d76040c205a4f7fe722b"><div class="ttname"><a href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">GraphicScene::mouseMoveEvent</a></div><div class="ttdeci">void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00082">graphicscene.cpp:82</a></div></div>
-<div class="ttc" id="classGraphicScene_html_aaf205841a6bd0e517a44e9e3b9ac6537"><div class="ttname"><a href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">GraphicScene::GraphicScene</a></div><div class="ttdeci">GraphicScene(QObject *parent=Q_NULLPTR)</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00015">graphicscene.cpp:15</a></div></div>
-<div class="ttc" id="classGraphicScene_html_abfe3ad7cecd9c8e717ee4578d5930098"><div class="ttname"><a href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">GraphicScene::mouseReleaseEvent</a></div><div class="ttdeci">void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00075">graphicscene.cpp:75</a></div></div>
-<div class="ttc" id="classGraphicScene_html_acd0ada9b8820e978c47df66af52434b4"><div class="ttname"><a href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">GraphicScene::timerEvent</a></div><div class="ttdeci">void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00102">graphicscene.cpp:102</a></div></div>
+<div class="ttc" id="classGraphicScene_html_a2c877c11d986d238c079d8456ca94935"><div class="ttname"><a href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">GraphicScene::itemMoved</a></div><div class="ttdeci">void itemMoved()</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00039">graphicscene.cpp:39</a></div></div>
+<div class="ttc" id="classGraphicScene_html_acdbd50f40820d76040c205a4f7fe722b"><div class="ttname"><a href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">GraphicScene::mouseMoveEvent</a></div><div class="ttdeci">void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00076">graphicscene.cpp:76</a></div></div>
+<div class="ttc" id="classGraphicScene_html_aaf205841a6bd0e517a44e9e3b9ac6537"><div class="ttname"><a href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">GraphicScene::GraphicScene</a></div><div class="ttdeci">GraphicScene(QObject *parent=Q_NULLPTR)</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00009">graphicscene.cpp:9</a></div></div>
+<div class="ttc" id="classGraphicScene_html_abfe3ad7cecd9c8e717ee4578d5930098"><div class="ttname"><a href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">GraphicScene::mouseReleaseEvent</a></div><div class="ttdeci">void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00069">graphicscene.cpp:69</a></div></div>
+<div class="ttc" id="classGraphicScene_html_acd0ada9b8820e978c47df66af52434b4"><div class="ttname"><a href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">GraphicScene::timerEvent</a></div><div class="ttdeci">void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00096">graphicscene.cpp:96</a></div></div>
 <div class="ttc" id="graphicball_8h_html"><div class="ttname"><a href="graphicball_8h.html">graphicball.h</a></div></div>
 <div class="ttc" id="graphicscene_8h_html"><div class="ttname"><a href="graphicscene_8h.html">graphicscene.h</a></div><div class="ttdoc">Header file with a description of the Scene class, where the balls are controlled, the coordinates for which are calculated in a separate thread. </div></div>
-<div class="ttc" id="classGraphicScene_html_abe1190db9df49ce27854e3ef43b9865b"><div class="ttname"><a href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">GraphicScene::~GraphicScene</a></div><div class="ttdeci">~GraphicScene()</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00036">graphicscene.cpp:36</a></div></div>
-<div class="ttc" id="classGraphicScene_html_a086e6933444c650330dd2a2c0e678b75"><div class="ttname"><a href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">GraphicScene::mousePressEvent</a></div><div class="ttdeci">void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00051">graphicscene.cpp:51</a></div></div>
+<div class="ttc" id="classGraphicScene_html_abe1190db9df49ce27854e3ef43b9865b"><div class="ttname"><a href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">GraphicScene::~GraphicScene</a></div><div class="ttdeci">~GraphicScene()</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00030">graphicscene.cpp:30</a></div></div>
+<div class="ttc" id="classGraphicScene_html_a086e6933444c650330dd2a2c0e678b75"><div class="ttname"><a href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">GraphicScene::mousePressEvent</a></div><div class="ttdeci">void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00045">graphicscene.cpp:45</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 20:16:45. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 20:20:44. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
