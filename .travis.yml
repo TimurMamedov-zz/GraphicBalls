@@ -12,9 +12,13 @@ install:
   # C++14
   - sudo apt-get install -qq g++-6
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
-  - sudo apt-get install libgtest0 libgtest-dev
   - sudo apt-get install qtbase5-dev qtdeclarative5-dev
   - sudo apt-get install qt5-default qttools5-dev-tools
+  - git clone https://github.com/google/googletest.git
+  - cd googletest
+  - cmake .
+  - cmake --build .
+  - sudo make install
 
 before_script:
   - sudo apt-get install doxygen -y
