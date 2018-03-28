@@ -1,9 +1,3 @@
-/*!
-\file
-\brief Header file with a description of the Scene class,
-where the balls are controlled, the coordinates for which are calculated
-in a separate thread
-*/
 #include "graphicscene.h"
 #include "graphicball.h"
 #include <QDebug>
