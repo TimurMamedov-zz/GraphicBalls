@@ -37,7 +37,7 @@ GraphicScene::~GraphicScene()
 void GraphicScene::itemMoved()
 {
     if (!timerId)
-        timerId = startTimer(1000/50);
+        timerId = startTimer(1000/200);
 }
 
 void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
