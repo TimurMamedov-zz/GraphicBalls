@@ -1,3 +1,9 @@
+/*!
+\file
+\brief Header file with a description of the Scene class,
+where the balls are controlled, the coordinates for which are calculated
+in a separate thread
+*/
 #include "graphicscene.h"
 #include "graphicball.h"
 #include <QDebug>
@@ -33,7 +39,9 @@ GraphicScene::~GraphicScene()
     cond_var.notify_one();
     calculateForcesThread.join();
 }
-
+/*!
+The method that is called by the ball, if it moves
+*/
 void GraphicScene::itemMoved()
 {
     if (!timerId)
@@ -87,6 +95,10 @@ void GraphicScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
     QGraphicsScene::mouseMoveEvent(mouseEvent);
 }
 
+/*!
+The timer method, which is called periodically and
+which calls the isMovingItems () method
+*/
 void GraphicScene::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
@@ -100,6 +112,12 @@ void GraphicScene::timerEvent(QTimerEvent *event)
     }
 }
 
+/*!
+The method that assigns coordinates to the balls,
+which are calculated in a separate thread
+and returns false if the balls stop moving
+\param[out] Stop or keep moving
+*/
 bool GraphicScene::isMovingItems()
 {
     std::lock_guard<std::mutex> lk(mut);

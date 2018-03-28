@@ -1,3 +1,8 @@
+/*!
+\file
+\brief Header file with a description of the class-functor,
+where the balls coordinates are calculated
+*/
 #ifndef CALCULATEFORCES_H
 #define CALCULATEFORCES_H
 #include <QPointF>

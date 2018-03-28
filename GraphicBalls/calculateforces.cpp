@@ -33,19 +33,19 @@ void CalculateForces::operator()()
                 auto dx = vec.x() - ballPair.first->x();
                 auto dy = vec.y() - ballPair.first->y();
 
-                auto R = std::sqrt(dx*dx + dy*dy);
+                auto R = std::sqrt(dx*dx + dy*dy); ///< force between balls
 
-                if(R > ballPair.first->boundingRect().width()/10)
+                if(R > ballPair.first->boundingRect().width()/10) ///< to avoid a force close to infinity when the balls approach each other close
                 {
                     vel = (1/R) - (1/(R*R));
-                    xvel += vel * dx/R;
-                    yvel += vel * dy/R;
+                    xvel += vel * dx/R; ///< R*cos(angle)
+                    yvel += vel * dy/R; ///< R*sin(angle)
                 }
             }
-            balls[ballPair.first] = ballPair.first->pos() + QPointF(xvel, yvel);
+            balls[ballPair.first] = ballPair.first->pos() + QPointF(xvel, yvel); ///< new position
         }
         if(finish)
             break;
-        cond_var.wait(lk);
+        cond_var.wait(lk); ///< wait for the signal from the main thread to calculate the new positions of the balls
     }
 }

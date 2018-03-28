@@ -1,3 +1,9 @@
+/*!
+\file
+\brief Header file with a description of the Scene class,
+where the balls are controlled, the coordinates for which are calculated
+in a separate thread
+*/
 #ifndef GRAPHICSCENE_H
 #define GRAPHICSCENE_H
 
