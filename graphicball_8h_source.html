@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>GraphicBalls: Исходный файл GraphicBalls/graphicball.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">GraphicBalls
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.6 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d199d44c22c07f3e809965ee4c4c58e6.html">GraphicBalls</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">graphicball.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="graphicball_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef GRAPHICBALL_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GRAPHICBALL_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">class </span><a class="code" href="classGraphicScene.html">GraphicScene</a>;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QGraphicsItem&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classGraphicBall.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="classGraphicBall.html">GraphicBall</a> : <span class="keyword">public</span> QGraphicsItem</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="classGraphicBall.html#a4a9c1c4dfb5bcc7c7d3abc605226edee">GraphicBall</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="classGraphicBall.html#a4a9c1c4dfb5bcc7c7d3abc605226edee">GraphicBall</a>(<a class="code" href="classGraphicScene.html">GraphicScene</a> *graphScene);</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classGraphicBall.html#a79f7c96ed43afabc7ed430643dd6895ea16dbb84c13c41624b7e55dfc220c2424">   13</a></span>&#160;    <span class="keyword">enum</span> { <a class="code" href="classGraphicBall.html#a79f7c96ed43afabc7ed430643dd6895ea16dbb84c13c41624b7e55dfc220c2424">Type</a> = UserType + 1 };</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classGraphicBall.html#a62c6542b0d1eb8a0358e84810ac4ebe3">   14</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classGraphicBall.html#a62c6542b0d1eb8a0358e84810ac4ebe3">type</a>() const Q_DECL_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="classGraphicBall.html#a79f7c96ed43afabc7ed430643dd6895ea16dbb84c13c41624b7e55dfc220c2424">Type</a>; }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    QRectF <a class="code" href="classGraphicBall.html#ae7db461c1f1b8746d469bece58222ed7">boundingRect</a>() const Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    QPainterPath <a class="code" href="classGraphicBall.html#ad562fc67ef9bb27b8dbf5e790f7b6390">shape</a>() const Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicBall.html#ab346e692001a7a5785c51e3bdc74a37f">paint</a>(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;protected:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    QVariant <a class="code" href="classGraphicBall.html#a7ae2be6a4998743530356edceb791542">itemChange</a>(GraphicsItemChange change, const QVariant &amp;value) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicBall.html#a2ab4f4012c17787da702b1de7cb80305">mousePressEvent</a>(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicBall.html#a29443b94e95f6fa84d20f70050727ae5">mouseReleaseEvent</a>(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;private:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classGraphicScene.html">GraphicScene</a> *scene_ = Q_NULLPTR;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;};</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif // GRAPHICBALL_H</span></div>
+<div class="ttc" id="classGraphicScene_html"><div class="ttname"><a href="classGraphicScene.html">GraphicScene</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8h_source.html#l00013">graphicscene.h:13</a></div></div>
+<div class="ttc" id="classGraphicBall_html"><div class="ttname"><a href="classGraphicBall.html">GraphicBall</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8h_source.html#l00008">graphicball.h:8</a></div></div>
+<div class="ttc" id="classGraphicBall_html_a2ab4f4012c17787da702b1de7cb80305"><div class="ttname"><a href="classGraphicBall.html#a2ab4f4012c17787da702b1de7cb80305">GraphicBall::mousePressEvent</a></div><div class="ttdeci">void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8cpp_source.html#l00074">graphicball.cpp:74</a></div></div>
+<div class="ttc" id="classGraphicBall_html_a79f7c96ed43afabc7ed430643dd6895ea16dbb84c13c41624b7e55dfc220c2424"><div class="ttname"><a href="classGraphicBall.html#a79f7c96ed43afabc7ed430643dd6895ea16dbb84c13c41624b7e55dfc220c2424">GraphicBall::Type</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8h_source.html#l00013">graphicball.h:13</a></div></div>
+<div class="ttc" id="classGraphicBall_html_a4a9c1c4dfb5bcc7c7d3abc605226edee"><div class="ttname"><a href="classGraphicBall.html#a4a9c1c4dfb5bcc7c7d3abc605226edee">GraphicBall::GraphicBall</a></div><div class="ttdeci">GraphicBall()=default</div></div>
+<div class="ttc" id="classGraphicBall_html_ad562fc67ef9bb27b8dbf5e790f7b6390"><div class="ttname"><a href="classGraphicBall.html#ad562fc67ef9bb27b8dbf5e790f7b6390">GraphicBall::shape</a></div><div class="ttdeci">QPainterPath shape() const Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8cpp_source.html#l00026">graphicball.cpp:26</a></div></div>
+<div class="ttc" id="classGraphicBall_html_a29443b94e95f6fa84d20f70050727ae5"><div class="ttname"><a href="classGraphicBall.html#a29443b94e95f6fa84d20f70050727ae5">GraphicBall::mouseReleaseEvent</a></div><div class="ttdeci">void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8cpp_source.html#l00080">graphicball.cpp:80</a></div></div>
+<div class="ttc" id="classGraphicBall_html_ab346e692001a7a5785c51e3bdc74a37f"><div class="ttname"><a href="classGraphicBall.html#ab346e692001a7a5785c51e3bdc74a37f">GraphicBall::paint</a></div><div class="ttdeci">void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8cpp_source.html#l00033">graphicball.cpp:33</a></div></div>
+<div class="ttc" id="classGraphicBall_html_a7ae2be6a4998743530356edceb791542"><div class="ttname"><a href="classGraphicBall.html#a7ae2be6a4998743530356edceb791542">GraphicBall::itemChange</a></div><div class="ttdeci">QVariant itemChange(GraphicsItemChange change, const QVariant &amp;value) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8cpp_source.html#l00059">graphicball.cpp:59</a></div></div>
+<div class="ttc" id="classGraphicBall_html_a62c6542b0d1eb8a0358e84810ac4ebe3"><div class="ttname"><a href="classGraphicBall.html#a62c6542b0d1eb8a0358e84810ac4ebe3">GraphicBall::type</a></div><div class="ttdeci">int type() const Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8h_source.html#l00014">graphicball.h:14</a></div></div>
+<div class="ttc" id="classGraphicBall_html_ae7db461c1f1b8746d469bece58222ed7"><div class="ttname"><a href="classGraphicBall.html#ae7db461c1f1b8746d469bece58222ed7">GraphicBall::boundingRect</a></div><div class="ttdeci">QRectF boundingRect() const Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8cpp_source.html#l00020">graphicball.cpp:20</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 19:49:10. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>

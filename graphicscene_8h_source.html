@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>GraphicBalls: Исходный файл GraphicBalls/graphicscene.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">GraphicBalls
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.6 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d199d44c22c07f3e809965ee4c4c58e6.html">GraphicBalls</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">graphicscene.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="graphicscene_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef GRAPHICSCENE_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GRAPHICSCENE_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QGraphicsScene&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="calculateforces_8h.html">calculateforces.h</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span><a class="code" href="classGraphicBall.html">GraphicBall</a>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classGraphicScene.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classGraphicScene.html">GraphicScene</a> : <span class="keyword">public</span> QGraphicsScene</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">GraphicScene</a>(QObject *parent = Q_NULLPTR);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">itemMoved</a>();</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">~GraphicScene</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">mousePressEvent</a>(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">mouseReleaseEvent</a>(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">mouseMoveEvent</a>(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">timerEvent</a>(QTimerEvent *event) Q_DECL_OVERRIDE;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classCalculateForces.html">CalculateForces</a> forces;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    std::thread calculateForcesThread;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> timerId = 0;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">bool</span> isMovingItems();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">const</span> QGraphicsItem *movingItem = Q_NULLPTR;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    std::unordered_map&lt;QGraphicsItem*, QPointF&gt; balls;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::mutex mut;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::condition_variable cond_var;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">bool</span> finish = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#endif // GRAPHICSCENE_H</span></div>
+<div class="ttc" id="classGraphicScene_html"><div class="ttname"><a href="classGraphicScene.html">GraphicScene</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8h_source.html#l00013">graphicscene.h:13</a></div></div>
+<div class="ttc" id="classGraphicBall_html"><div class="ttname"><a href="classGraphicBall.html">GraphicBall</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8h_source.html#l00008">graphicball.h:8</a></div></div>
+<div class="ttc" id="classGraphicScene_html_a2c877c11d986d238c079d8456ca94935"><div class="ttname"><a href="classGraphicScene.html#a2c877c11d986d238c079d8456ca94935">GraphicScene::itemMoved</a></div><div class="ttdeci">void itemMoved()</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00037">graphicscene.cpp:37</a></div></div>
+<div class="ttc" id="classGraphicScene_html_acdbd50f40820d76040c205a4f7fe722b"><div class="ttname"><a href="classGraphicScene.html#acdbd50f40820d76040c205a4f7fe722b">GraphicScene::mouseMoveEvent</a></div><div class="ttdeci">void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00074">graphicscene.cpp:74</a></div></div>
+<div class="ttc" id="classCalculateForces_html"><div class="ttname"><a href="classCalculateForces.html">CalculateForces</a></div><div class="ttdef"><b>Definition:</b> <a href="calculateforces_8h_source.html#l00010">calculateforces.h:10</a></div></div>
+<div class="ttc" id="classGraphicScene_html_aaf205841a6bd0e517a44e9e3b9ac6537"><div class="ttname"><a href="classGraphicScene.html#aaf205841a6bd0e517a44e9e3b9ac6537">GraphicScene::GraphicScene</a></div><div class="ttdeci">GraphicScene(QObject *parent=Q_NULLPTR)</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00009">graphicscene.cpp:9</a></div></div>
+<div class="ttc" id="classGraphicScene_html_abfe3ad7cecd9c8e717ee4578d5930098"><div class="ttname"><a href="classGraphicScene.html#abfe3ad7cecd9c8e717ee4578d5930098">GraphicScene::mouseReleaseEvent</a></div><div class="ttdeci">void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00067">graphicscene.cpp:67</a></div></div>
+<div class="ttc" id="classGraphicScene_html_acd0ada9b8820e978c47df66af52434b4"><div class="ttname"><a href="classGraphicScene.html#acd0ada9b8820e978c47df66af52434b4">GraphicScene::timerEvent</a></div><div class="ttdeci">void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00090">graphicscene.cpp:90</a></div></div>
+<div class="ttc" id="calculateforces_8h_html"><div class="ttname"><a href="calculateforces_8h.html">calculateforces.h</a></div></div>
+<div class="ttc" id="classGraphicScene_html_abe1190db9df49ce27854e3ef43b9865b"><div class="ttname"><a href="classGraphicScene.html#abe1190db9df49ce27854e3ef43b9865b">GraphicScene::~GraphicScene</a></div><div class="ttdeci">~GraphicScene()</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00030">graphicscene.cpp:30</a></div></div>
+<div class="ttc" id="classGraphicScene_html_a086e6933444c650330dd2a2c0e678b75"><div class="ttname"><a href="classGraphicScene.html#a086e6933444c650330dd2a2c0e678b75">GraphicScene::mousePressEvent</a></div><div class="ttdeci">void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE</div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8cpp_source.html#l00043">graphicscene.cpp:43</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 19:49:10. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>

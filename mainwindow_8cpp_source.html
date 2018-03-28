@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>GraphicBalls: Исходный файл GraphicBalls/mainwindow.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">GraphicBalls
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.6 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Титульная&#160;страница</span></a></li>
+      <li><a href="annotated.html"><span>Классы</span></a></li>
+      <li class="current"><a href="files.html"><span>Файлы</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Файлы</span></a></li>
+      <li><a href="globals.html"><span>Список&#160;членов&#160;всех&#160;файлов</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d199d44c22c07f3e809965ee4c4c58e6.html">GraphicBalls</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">mainwindow.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="mainwindow_8cpp.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mainwindow_8h.html">mainwindow.h</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;QGraphicsView&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="graphicscene_8h.html">graphicscene.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="classMainWindow.html#a07f9da8b4156a57614fd22bd1269d8bd">    5</a></span>&#160;<a class="code" href="classMainWindow.html#a07f9da8b4156a57614fd22bd1269d8bd">MainWindow::MainWindow</a>(QWidget *parent)</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    : QMainWindow(parent)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">auto</span> view = <span class="keyword">new</span> QGraphicsView;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">auto</span> scene = <span class="keyword">new</span> <a class="code" href="classGraphicScene.html">GraphicScene</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">auto</span> rect = scene-&gt;sceneRect().toAlignedRect();</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    view-&gt;setScene(<span class="keyword">new</span> <a class="code" href="classGraphicScene.html">GraphicScene</a>);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    view-&gt;setFixedSize(rect.width()+5, rect.height()+5);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    setCentralWidget(view);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    setFixedSize(view-&gt;size());</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classMainWindow.html#ae98d00a93bc118200eeef9f9bba1dba7">   17</a></span>&#160;<a class="code" href="classMainWindow.html#ae98d00a93bc118200eeef9f9bba1dba7">MainWindow::~MainWindow</a>()</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="ttc" id="classGraphicScene_html"><div class="ttname"><a href="classGraphicScene.html">GraphicScene</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicscene_8h_source.html#l00013">graphicscene.h:13</a></div></div>
+<div class="ttc" id="classMainWindow_html_a07f9da8b4156a57614fd22bd1269d8bd"><div class="ttname"><a href="classMainWindow.html#a07f9da8b4156a57614fd22bd1269d8bd">MainWindow::MainWindow</a></div><div class="ttdeci">MainWindow(QWidget *parent=Q_NULLPTR)</div><div class="ttdef"><b>Definition:</b> <a href="mainwindow_8cpp_source.html#l00005">mainwindow.cpp:5</a></div></div>
+<div class="ttc" id="mainwindow_8h_html"><div class="ttname"><a href="mainwindow_8h.html">mainwindow.h</a></div></div>
+<div class="ttc" id="classMainWindow_html_ae98d00a93bc118200eeef9f9bba1dba7"><div class="ttname"><a href="classMainWindow.html#ae98d00a93bc118200eeef9f9bba1dba7">MainWindow::~MainWindow</a></div><div class="ttdeci">~MainWindow()</div><div class="ttdef"><b>Definition:</b> <a href="mainwindow_8cpp_source.html#l00017">mainwindow.cpp:17</a></div></div>
+<div class="ttc" id="graphicscene_8h_html"><div class="ttname"><a href="graphicscene_8h.html">graphicscene.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 19:49:10. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>
