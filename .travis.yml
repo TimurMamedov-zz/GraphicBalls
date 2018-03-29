@@ -32,6 +32,12 @@ script:
   - qmake -project
   - qmake GraphicBalls_main.pro
   - make
+  - cd $TRAVIS_BUILD_DIR
+  - pwd
+  - ls -la
+  - cd GraphicBalls_test
+  - ls -la
+  - ./GraphicBalls_test
 
 deploy:
   - provider: pages
