@@ -10,6 +10,8 @@ calcFThread(std::ref(culcF)), predStart([this]()
     while(std::fabs(balls[ball2].x() - balls[ball1].x()) > ball1->boundingRect().width()/10)
     {
         this->setPos();
+        std::cout << "std::fabs(balls[ball2].x() - balls[ball1].x()) > ball1->boundingRect().width()/10" << std::endl;
+        std::cout << std::fabs(balls[ball2].x() - balls[ball1].x()) << " > " << ball1->boundingRect().width()/10 << std::endl;
     }
     return false;
 })
