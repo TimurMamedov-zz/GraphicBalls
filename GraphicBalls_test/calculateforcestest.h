@@ -39,7 +39,7 @@ protected:
 
     void usingPredicate(std::function<bool()> pred)
     {
-        while(pred()){};
+        while(pred());
     }
 
     void setPos();

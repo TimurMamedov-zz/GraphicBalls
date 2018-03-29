@@ -32,11 +32,7 @@ script:
   - qmake -project
   - qmake GraphicBalls_main.pro
   - make
-  - cd $TRAVIS_BUILD_DIR
-  - pwd
-  - ls -la
-  - cd GraphicBalls_test
-  - ls -la
+  - cd $TRAVIS_BUILD_DIR/GraphicBalls_test
   - ./GraphicBalls_test
 
 deploy:
