@@ -95,40 +95,39 @@
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classCalculateForcesTest.html#a28cabe5963f5ed917910e012d56ac3d0">   43</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classCalculateForcesTest.html#a28cabe5963f5ed917910e012d56ac3d0">CalculateForcesTest::setPos</a>()</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classCalculateForcesTest.html#a3c765a1b0eece05f2864ed973fd61b94">cond_var</a>.notify_one();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::this_thread::sleep_for(std::chrono::milliseconds(10));</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::unique_lock&lt;std::mutex&gt; lk(<a class="code" href="classCalculateForcesTest.html#a4907a4aad4ec750581dcbcb941a5648d">mut</a>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::this_thread::sleep_for(std::chrono::milliseconds(5));</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::lock_guard&lt;std::mutex&gt; lk(<a class="code" href="classCalculateForcesTest.html#a4907a4aad4ec750581dcbcb941a5648d">mut</a>);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classCalculateForcesTest.html#a6752c3b3b62898680b4f5e8c2af70e08">ball1</a>-&gt;setPos(<a class="code" href="classCalculateForcesTest.html#a4bd4150d519fb73d326199160ce9e5f3">balls</a>[<a class="code" href="classCalculateForcesTest.html#a6752c3b3b62898680b4f5e8c2af70e08">ball1</a>]);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classCalculateForcesTest.html#a106965ba902509f23dc803f3a6abef0d">ball2</a>-&gt;setPos(<a class="code" href="classCalculateForcesTest.html#a4bd4150d519fb73d326199160ce9e5f3">balls</a>[<a class="code" href="classCalculateForcesTest.html#a106965ba902509f23dc803f3a6abef0d">ball2</a>]);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    lk.unlock();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classCalculateForcesTest.html#af420ccbf6a26194ecc3d0a0f6f630708">   53</a></span>&#160;QPointF <a class="code" href="classCalculateForcesTest.html#af420ccbf6a26194ecc3d0a0f6f630708">CalculateForcesTest::calculateNewPosition</a>(<a class="code" href="classGraphicBall.html">GraphicBall</a> *ball)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">auto</span> vel = qreal{0};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">auto</span> xvel = qreal{0};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">auto</span> yvel = qreal{0};</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">auto</span> ballOldPos = ball-&gt;pos();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; anotherBallPair: <a class="code" href="classCalculateForcesTest.html#a4bd4150d519fb73d326199160ce9e5f3">balls</a>)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span>(ball != anotherBallPair.first)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keyword">auto</span> anotherBallOldPos = anotherBallPair.first-&gt;pos();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">auto</span> dx = anotherBallOldPos.x() - ballOldPos.x();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keyword">auto</span> dy = anotherBallOldPos.y() - ballOldPos.y();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keyword">auto</span> R = std::sqrt(dx*dx + dy*dy);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            vel = (1/R) - (1/(R*R));</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            xvel += vel * dx/R;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            yvel += vel * dy/R;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> ballOldPos + QPointF(xvel, yvel);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classCalculateForcesTest.html#af420ccbf6a26194ecc3d0a0f6f630708">   52</a></span>&#160;QPointF <a class="code" href="classCalculateForcesTest.html#af420ccbf6a26194ecc3d0a0f6f630708">CalculateForcesTest::calculateNewPosition</a>(<a class="code" href="classGraphicBall.html">GraphicBall</a> *ball)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">auto</span> vel = qreal{0};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">auto</span> xvel = qreal{0};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">auto</span> yvel = qreal{0};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">auto</span> ballOldPos = ball-&gt;pos();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; anotherBallPair: <a class="code" href="classCalculateForcesTest.html#a4bd4150d519fb73d326199160ce9e5f3">balls</a>)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span>(ball != anotherBallPair.first)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keyword">auto</span> anotherBallOldPos = anotherBallPair.first-&gt;pos();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keyword">auto</span> dx = anotherBallOldPos.x() - ballOldPos.x();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">auto</span> dy = anotherBallOldPos.y() - ballOldPos.y();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keyword">auto</span> R = std::sqrt(dx*dx + dy*dy);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            vel = (1/R) - (1/(R*R));</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            xvel += vel * dx/R;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            yvel += vel * dy/R;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">return</span> ballOldPos + QPointF(xvel, yvel);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
 <div class="ttc" id="classGraphicBall_html"><div class="ttname"><a href="classGraphicBall.html">GraphicBall</a></div><div class="ttdef"><b>Definition:</b> <a href="graphicball_8h_source.html#l00008">graphicball.h:8</a></div></div>
 <div class="ttc" id="classCalculateForcesTest_html_a106965ba902509f23dc803f3a6abef0d"><div class="ttname"><a href="classCalculateForcesTest.html#a106965ba902509f23dc803f3a6abef0d">CalculateForcesTest::ball2</a></div><div class="ttdeci">GraphicBall * ball2</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8h_source.html#l00035">calculateforcestest.h:35</a></div></div>
 <div class="ttc" id="classCalculateForcesTest_html_add1b50ab7538fe96beb2ac2a19976529"><div class="ttname"><a href="classCalculateForcesTest.html#add1b50ab7538fe96beb2ac2a19976529">CalculateForcesTest::CalculateForcesTest</a></div><div class="ttdeci">CalculateForcesTest()</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8cpp_source.html#l00003">calculateforcestest.cpp:3</a></div></div>
@@ -141,7 +140,7 @@
 <div class="ttc" id="classCalculateForcesTest_html_a342e90a1b30f239d0fe257987cf3be6a"><div class="ttname"><a href="classCalculateForcesTest.html#a342e90a1b30f239d0fe257987cf3be6a">CalculateForcesTest::point2</a></div><div class="ttdeci">QPointF point2</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8h_source.html#l00029">calculateforcestest.h:29</a></div></div>
 <div class="ttc" id="classCalculateForcesTest_html_a92dda977fecd814741d1f6e430111981"><div class="ttname"><a href="classCalculateForcesTest.html#a92dda977fecd814741d1f6e430111981">CalculateForcesTest::finish</a></div><div class="ttdeci">bool finish</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8h_source.html#l00034">calculateforcestest.h:34</a></div></div>
 <div class="ttc" id="classCalculateForcesTest_html_a4907a4aad4ec750581dcbcb941a5648d"><div class="ttname"><a href="classCalculateForcesTest.html#a4907a4aad4ec750581dcbcb941a5648d">CalculateForcesTest::mut</a></div><div class="ttdeci">std::mutex mut</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8h_source.html#l00032">calculateforcestest.h:32</a></div></div>
-<div class="ttc" id="classCalculateForcesTest_html_af420ccbf6a26194ecc3d0a0f6f630708"><div class="ttname"><a href="classCalculateForcesTest.html#af420ccbf6a26194ecc3d0a0f6f630708">CalculateForcesTest::calculateNewPosition</a></div><div class="ttdeci">QPointF calculateNewPosition(GraphicBall *ball)</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8cpp_source.html#l00053">calculateforcestest.cpp:53</a></div></div>
+<div class="ttc" id="classCalculateForcesTest_html_af420ccbf6a26194ecc3d0a0f6f630708"><div class="ttname"><a href="classCalculateForcesTest.html#af420ccbf6a26194ecc3d0a0f6f630708">CalculateForcesTest::calculateNewPosition</a></div><div class="ttdeci">QPointF calculateNewPosition(GraphicBall *ball)</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8cpp_source.html#l00052">calculateforcestest.cpp:52</a></div></div>
 <div class="ttc" id="classCalculateForcesTest_html_ad511d752c3431b922f399da41d39733a"><div class="ttname"><a href="classCalculateForcesTest.html#ad511d752c3431b922f399da41d39733a">CalculateForcesTest::TearDown</a></div><div class="ttdeci">virtual void TearDown()</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8cpp_source.html#l00031">calculateforcestest.cpp:31</a></div></div>
 <div class="ttc" id="classCalculateForcesTest_html_a28cabe5963f5ed917910e012d56ac3d0"><div class="ttname"><a href="classCalculateForcesTest.html#a28cabe5963f5ed917910e012d56ac3d0">CalculateForcesTest::setPos</a></div><div class="ttdeci">void setPos()</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8cpp_source.html#l00043">calculateforcestest.cpp:43</a></div></div>
 <div class="ttc" id="classCalculateForcesTest_html_a4543a52a45a75f4bfd20a3610e322fa5"><div class="ttname"><a href="classCalculateForcesTest.html#a4543a52a45a75f4bfd20a3610e322fa5">CalculateForcesTest::SetUp</a></div><div class="ttdeci">virtual void SetUp()</div><div class="ttdef"><b>Definition:</b> <a href="calculateforcestest_8cpp_source.html#l00019">calculateforcestest.cpp:19</a></div></div>
@@ -150,7 +149,7 @@
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Документация по GraphicBalls. Последние изменения: Ср 28 Мар 2018 20:20:44. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+Документация по GraphicBalls. Последние изменения: Чт 29 Мар 2018 10:06:51. Создано системой &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
