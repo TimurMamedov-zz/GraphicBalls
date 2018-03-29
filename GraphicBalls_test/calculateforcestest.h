@@ -31,7 +31,7 @@ protected:
     std::unordered_map<QGraphicsItem*, QPointF> balls;
     std::mutex mut;
     std::condition_variable cond_var;
-    bool finish;
+    bool finish = false;
     GraphicBall *ball1, *ball2;
 
     std::function<bool()> predStart;
