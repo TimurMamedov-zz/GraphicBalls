@@ -43,7 +43,7 @@ void CalculateForcesTest::TearDown()
 void CalculateForcesTest::setPos()
 {
     cond_var.notify_one();
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
     std::lock_guard<std::mutex> lk(mut);
     ball1->setPos(balls[ball1]);
     ball2->setPos(balls[ball2]);
